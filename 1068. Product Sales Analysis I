@@ -1,0 +1,8 @@
+# 19th Feb 2025
+
+select product_name, year, price 
+from
+(select product_name, year, sum(price) over (partition by sale_id, product_name, year) as price
+from sales s
+join product p
+on s.product_id = p.product_id ) tbl

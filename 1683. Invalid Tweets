@@ -1,0 +1,7 @@
+# 18th Feb 2025
+
+select tweet_id
+from
+(select *, length(content) as len
+from tweets) len_tbl
+where len > 15

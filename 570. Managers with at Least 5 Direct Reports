@@ -1,0 +1,11 @@
+# 20th Feb 2025
+
+select manager_name as name
+from
+(select m.id, m.name as manager_name, count(*) as count_reportee
+from employee e
+join employee m
+on e.managerid = m.id
+#where m.name is not null
+group by 1, 2
+having count_reportee >= 5) res

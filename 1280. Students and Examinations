@@ -1,0 +1,13 @@
+# 20th Feb 2025
+
+select cross_tbl.student_id, student_name, cross_tbl.subject_name,
+	  count(e.student_id) as attended_exams
+from examinations e
+right join
+(
+select s.student_id, s.student_name, subs.subject_name from students s
+cross join subjects subs
+) cross_tbl
+on (e.subject_name = cross_tbl.subject_name and e.student_id = cross_tbl.student_id)
+group by cross_tbl.student_id, student_name, cross_tbl.subject_name
+order by cross_tbl.student_id, cross_tbl.subject_name

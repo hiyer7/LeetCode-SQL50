@@ -1,0 +1,7 @@
+#19th Feb 2025
+
+select w2.id#,w2.id , w1.recorddate, w1.temperature, w2.recorddate, w2.temperature
+from weather w1
+cross join weather w2
+where datediff(w2.recorddate,w1.recorddate) = 1
+and w1.temperature < w2.temperature

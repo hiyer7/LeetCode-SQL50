@@ -1,0 +1,9 @@
+# 19th Feb 2025
+
+select distinct customer_id, count(visit_id) over(partition by customer_id) as count_no_trans
+from
+(select v.visit_id,  v.customer_id, t.transaction_id, t.amount
+from transactions t
+right join visits v
+on t.visit_id = v.visit_id) tbl
+where transaction_id is null

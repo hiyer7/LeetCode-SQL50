@@ -1,0 +1,11 @@
+# 21st Feb 2025
+
+select s.user_id, round(if(rate is null, 0, rate),2) as confirmation_rate
+from signups s
+left join
+(select user_id,
+        sum(if (action="confirmed",1,0))/
+        (sum(if (action in ("timeout","confirmed"),1,0))) as rate
+from confirmations
+group by user_id) tbl
+on s.user_id = tbl.user_id

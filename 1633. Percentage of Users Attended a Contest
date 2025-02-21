@@ -1,0 +1,10 @@
+#21st Feb 2025
+select contest_id, 
+                round((count(contest_id)/distinct_user)*100,2) as percentage
+from register r
+left join
+(select user_id, count(user_id) over() as distinct_user
+from users) tbl
+on tbl.user_id = r.user_id
+group by contest_id
+order by percentage desc, contest_id asc

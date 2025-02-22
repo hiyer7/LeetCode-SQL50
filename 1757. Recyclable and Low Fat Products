@@ -1,0 +1,7 @@
+#17th Feb 2025
+
+select product_id
+from products
+where low_fats = 'Y'
+and recyclable = 'Y'
+

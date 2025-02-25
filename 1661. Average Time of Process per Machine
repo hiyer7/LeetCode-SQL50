@@ -1,0 +1,10 @@
+# 25th Feb 2025
+
+select a_start.machine_id, a_start.process_id, a_start.timestamp as start, a_stop.timestamp as stop
+from activity a_start
+Join
+activity a_stop
+on (a_start.machine_id = a_stop.machine_id
+    and a_start.process_id = a_stop.process_id)
+where a_start.activity_type = "start"
+or a_stop.activity_type = "stop"

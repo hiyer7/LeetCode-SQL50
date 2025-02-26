@@ -1,0 +1,6 @@
+#26th Feb 2025
+select user_id,
+        count(*) as followers_count
+from followers
+group by 1
+order by 1

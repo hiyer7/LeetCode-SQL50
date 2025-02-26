@@ -1,0 +1,8 @@
+#25th Feb 2025
+
+select max(num) as num
+from
+(select num, count(*) as cnt
+from mynumbers
+group by 1) vnt_tbl
+where cnt = 1

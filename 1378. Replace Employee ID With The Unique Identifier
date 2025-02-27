@@ -1,2 +1,6 @@
 # 18th Feb 2025
 
+select unique_id, name
+from employees
+left join employeeuni
+using (id)

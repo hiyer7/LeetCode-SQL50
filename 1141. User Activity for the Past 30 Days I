@@ -1,0 +1,7 @@
+#3rd March 2025
+
+select activity_date as day,
+       count(*) as active_users
+from activity
+where datediff(date_sub('2019-07-27', interval 30 day), '2019-07-27') >=30
+group by 1

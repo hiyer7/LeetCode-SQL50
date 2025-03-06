@@ -1,0 +1,25 @@
+#6th March 2025
+with lead_date_cte as
+(select player_id,
+       event_date,
+       min(event_date) over (partition by player_id) as first_date,
+       lead(event_date, 1) over (partition by player_id order by event_date asc) as lead_date
+from activity),
+
+consecutive_players as
+(
+    select count(player_id) as consecutive_days_player
+    from lead_date_cte
+    where timestampdiff(day, first_date, lead_date) = 1
+
+),
+
+distinct_players as
+(
+    select count(distinct player_id) as total_player
+    from activity
+)
+
+select round(consecutive_days_player/total_player,2) as fraction
+from consecutive_players
+join distinct_players

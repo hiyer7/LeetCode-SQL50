@@ -1,0 +1,25 @@
+#6th March 2025
+with first_order_date_cte as
+(
+select customer_id,
+       order_date,
+       min(order_date) over (partition by customer_id) as first_order_date,
+       customer_pref_delivery_date
+from delivery
+),
+
+first_immediate_count as
+(select count(*) as immediate_count
+from first_order_date_cte
+where first_order_date = order_date
+and customer_pref_delivery_date = order_date),
+
+first_total_count as
+(select count(*) as total_count
+from first_order_date_cte
+where first_order_date = order_date)
+
+select round((immediate_count/total_count)*100,2) as immediate_percentage
+from first_total_count
+join
+first_immediate_count

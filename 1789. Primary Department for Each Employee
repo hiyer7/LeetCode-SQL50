@@ -1,0 +1,22 @@
+#6th March 2025
+with primary_y_cte as
+(
+    select employee_id,
+            department_id
+    from employee
+    where primary_flag = "Y"
+),
+primary_n_cte as
+(
+select employee_id,
+        department_id
+from employee
+where primary_flag = 'N'
+and employee_id not in
+(select employee_id from primary_y_cte)
+group by 1)
+
+select * from primary_y_cte
+union
+select * from primary_n_cte
+order by employee_id

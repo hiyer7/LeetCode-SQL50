@@ -1,0 +1,5 @@
+#6th March 2025
+select *
+from patients
+where upper(conditions) like "DIAB1%"
+or upper(conditions) like "% DIAB1%"

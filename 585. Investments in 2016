@@ -1,0 +1,19 @@
+#11th Marcg 2025
+with tiv_2015_count_cte as
+(
+select  pid,
+        count(tiv_2015) over (partition by tiv_2015) as tiv_2015_count,
+        tiv_2016
+from insurance),
+
+lat_lon_count as(
+select lat, lon, tiv_2016, count(*) as count_lat_lon, pid
+from insurance
+group by 1, 2)
+
+select round(sum(lat_lon_count.tiv_2016),2) as tiv_2016
+from lat_lon_count
+join tiv_2015_count_cte
+using (pid)
+where count_lat_lon = 1
+and tiv_2015_count > 1

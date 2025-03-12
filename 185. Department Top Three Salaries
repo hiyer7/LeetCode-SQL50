@@ -1,0 +1,15 @@
+#11th March 2025
+with dense_cte as
+(select department.name as Department,
+        employee.name as Employee,
+        Salary,
+        dense_rank() over (partition by department.name order by salary desc) as dr
+from employee
+join department
+on employee.departmentid = department.id)        
+
+select Department,
+        Employee,
+        Salary
+from dense_cte
+where dr <= 3

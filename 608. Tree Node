@@ -1,0 +1,34 @@
+#Using normal Select case:
+select distinct t.id,
+		case
+        when t.p_id is null then "Root"
+        when c.id is null then "Leaf"
+        else "Inner"
+        end
+        as type
+from tree t
+left join tree c
+on t.id = c.p_id
+
+#Using recursive Cte:
+with recursive parent_child_cte as
+(
+	select t1.id, t1.p_id, 1 as level
+    from tree t1
+    where p_id is null
+    
+    union all
+    
+    select t2.id, t2.p_id, pcc.level+1
+    from parent_child_cte pcc
+    join tree t2 
+    on t2.p_id = pcc.id
+)
+
+select id, case
+		when level = 1 then "root"
+        when level = 2 then "inner"
+        when level = 3 then "leaf"
+	   end
+       as type
+from parent_child_cte;

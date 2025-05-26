@@ -46,7 +46,7 @@ products_cte as
 select p.user_id, p.product_id product1_id, p1.product_id product2_id, p.category product1_category, p1.category product2_category
 from joined_cte p
 join joined_cte p1
-where p.user_id = p1.user_id
+on p.user_id = p1.user_id
 and p.product_id > p1.product_id
 ),
 
@@ -59,10 +59,4 @@ having count(*) > 2
 )
 
 select * from product_combination_cte
-;
--- select product1_id, product2_id, category as product1_category, category as product2_category
--- from product_combination_cte
--- join ProductInfo
--- where product_combination_cte.product1_id = ProductInfo.product_id
--- or product_combination_cte.product2_id = ProductInfo.product_id
--- ;
+order by customer_count desc, product1_id, product2_id;

@@ -28,3 +28,12 @@ select distinct last_value(p_name) over () as person_name
 from running_weight_cte
 where running_weight <=1000
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+select person_name
+from
+(select person_name,
+       sum(weight) over (order by turn) as rolling_sum
+from queue) tbl
+where rolling_sum <=1000
+order by rolling_sum desc
+limit 1;

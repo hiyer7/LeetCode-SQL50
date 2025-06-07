@@ -1,0 +1,12 @@
+with recursive generate_ordered_numbers as
+(
+  select 1 as numbers
+
+  union all
+
+  select numbers +1
+  from generate_ordered_numbers
+)
+
+select numbers from generate_ordered_numbers
+where number<10

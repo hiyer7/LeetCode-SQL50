@@ -1,0 +1,9 @@
+
+select library_books.book_id, title, author, genre, publication_year, total_copies as current_borrowers 
+from borrowing_records 
+join library_books
+using(book_id)
+where return_date is null
+group by book_id
+having  total_copies = count(*)
+order by current_borrowers desc, title asc;

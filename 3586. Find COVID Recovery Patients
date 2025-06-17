@@ -1,0 +1,35 @@
+# Write your MySQL query statement below
+with first_positive as
+(
+    select patient_id,
+           min(test_date) as min_positive
+from covid_tests
+where result = 'Positive'
+group by 1
+),
+
+first_negative as
+(
+select covid_tests.patient_id,
+       test_date
+       from covid_tests
+where result = 'Negative'
+),
+
+joined_cte as
+(
+    select first_negative.patient_id,
+          min_positive, test_date, min(test_date) as negative
+        from first_negative join first_positive
+        using (patient_id)
+        where test_date>min_positive
+        group by 1, 2
+)
+
+#select * from joined_cte
+select patient_id, patient_name, age, 
+        timestampdiff(day, min_positive, test_date) as recovery_time
+from patients
+join joined_cte
+using (patient_id)
+order by 4, 2
